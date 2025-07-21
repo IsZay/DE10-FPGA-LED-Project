@@ -1,0 +1,45 @@
+WIDTH=16;
+DEPTH=2048;
+
+ADDRESS_RADIX=HEX;
+DATA_RADIX=HEX;
+
+CONTENT BEGIN
+0000: B832; -- LOADI 50
+0001: 9822; -- OUT LED_Brightness
+0002: 0823; --     LOAD Mode
+0003: 9821; --     OUT LED_Mode
+0004: 6801; --     ADDI 1
+0005: 1023; --     STORE Mode
+0006: 6FFD; --     ADDI -3
+0007: 4009; --     JZERO ModeReset
+0008: 280B; --     JUMP Update
+0009: B800; --     LOADI 0
+000A: 1023; --     Store Mode
+000B: 9000; -- 	IN Switches
+000C: 9820; --     OUT LED_Pattern
+000D: 1021; --     STORE SwitchPattern
+000E: 0822; -- 	LOAD Bright
+000F: 9822; --     OUT LED_Brightness
+0010: 9006; --   IN Timer
+0011: 6FF6; --   ADDI -10	
+0012: 3817; --   JPOS Step
+0013: 9000; --   IN Switches
+0014: 2021; --   SUB SwitchPattern
+0015: 4010; --   JZERO Loop ; Loop if switch pattern hasn't changed
+0016: 280B; -- JUMP Update
+0017: 9806; -- 	OUT Timer
+0018: 0822; -- 	LOAD Bright
+0019: 680A; --     ADDI 10
+001A: 1022; --     STORE Bright
+001B: 6F9C; --     ADDI -100
+001C: 381E; --     JPOS Zero ; if over 100 roll around
+001D: 280B; --     JUMP Update
+001E: B800; -- 	LOADI 0
+001F: 1022; --     STORE Bright
+0020: 2802; --     JUMP ModeLoop
+0021: 0000; -- SwitchPattern: DW 0
+0022: 0000; -- Bright: DW 0
+0023: 0000; -- Mode: DW 0
+[0024..07FF] : 0000; -- [empty memory]
+END;
